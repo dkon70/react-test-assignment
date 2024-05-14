@@ -23,9 +23,11 @@ import {
 import { Button } from '@/components/ui/button';
 import LanguageTable from './LanguagesTable';
 import { GameCardProps } from '@/types/types';
+import { useState } from 'react';
 
 const GameCard = (props: GameCardProps) => {
   const { data } = props;
+  const [showFullText, setShowFullText] = useState(false);
 
   if (data.cover) {
     data.cover.url = data.cover.url.replace('t_thumb', 't_cover_big');
@@ -35,6 +37,10 @@ const GameCard = (props: GameCardProps) => {
       screenshot.url = screenshot.url.replace('t_thumb', 't_screenshot_big');
     });
   }
+
+  const textToggleHandler = () => {
+    setShowFullText(!showFullText);
+  };
 
   const getReleaseYear = (timestamp: number) => {
     const date = new Date(timestamp * 1000);
@@ -102,7 +108,19 @@ const GameCard = (props: GameCardProps) => {
                 )}
             </p>
             <br />
-            <p>{data.storyline && data.storyline}</p>
+            <p className={!showFullText ? `line-clamp-5` : ''}>
+              {data.storyline && data.storyline}
+            </p>
+            {data.storyline && data.storyline.length > 100 ? (
+              <span
+                className="font-bold text-xs cursor-pointer underline"
+                onClick={textToggleHandler}
+              >
+                {showFullText ? 'Hide' : 'Show more'}
+              </span>
+            ) : (
+              ''
+            )}
           </CardContent>
           <CardFooter className="flex justify-end">
             <Popover>
