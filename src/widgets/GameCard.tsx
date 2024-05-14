@@ -22,24 +22,7 @@ import {
 } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
 import LanguageTable from './LanguagesTable';
-
-type GameCardProps = {
-  data: {
-    id: number;
-    name: string;
-    cover: { url: string };
-    genres: { name: string }[];
-    platforms: { name: string }[];
-    release_dates: { date: number }[];
-    screenshots: { url: string }[];
-    storyline: string;
-    rating: number;
-    language_supports: {
-      language: { name: string };
-      language_support_type: { name: string };
-    }[];
-  };
-};
+import { GameCardProps } from '@/types/types';
 
 const GameCard = (props: GameCardProps) => {
   const { data } = props;

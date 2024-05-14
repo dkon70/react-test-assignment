@@ -2,26 +2,7 @@ import { ChangeEvent, KeyboardEvent, useState, useEffect } from 'react';
 import SearchBar from './widgets/SearchBar';
 import GameCard from './widgets/GameCard';
 import { getGames } from './utils/fetchData';
-
-type GameCardProps = {
-  id: number;
-  name: string;
-  cover: { url: string };
-  genres: { name: string }[];
-  platforms: { name: string }[];
-  release_dates: { date: number }[];
-  screenshots: { url: string }[];
-  storyline: string;
-  rating: number;
-  language_supports: {
-    language: { name: string };
-    language_support_type: { name: string };
-  }[];
-};
-
-type ResponseType = {
-  result: GameCardProps[];
-};
+import { GameCardData, ResponseType } from './types/types';
 
 function App() {
   // const [bearer, setBearer] = useState('');
@@ -101,7 +82,7 @@ function App() {
       {!loading ? (
         // <GameCard data={dt[0].result[0] as GameCardProps} />
         dt[0].result.map((elem, index) => (
-          <GameCard key={index} data={elem as GameCardProps} />
+          <GameCard key={index} data={elem as GameCardData} />
         ))
       ) : (
         <h1 className="text-center pt-10 text-xl">Loading...</h1>

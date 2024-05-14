@@ -1,22 +1,4 @@
-type LanguageTableProps = {
-  data: {
-    language: {
-      name: string;
-    };
-    language_support_type: {
-      name: string;
-    };
-  }[];
-};
-
-type LanguagesType = {
-  language: string;
-  types: {
-    audio: boolean;
-    subtitles: boolean;
-    interface: boolean;
-  };
-};
+import { LanguageTableProps, LanguagesType } from '@/types/types';
 
 const LanguageTable = (props: LanguageTableProps) => {
   const { data } = props;
