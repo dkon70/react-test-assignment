@@ -4,6 +4,12 @@ import GameCard from './widgets/GameCard';
 import { getGames } from './utils/fetchData';
 import { GameCardData, ResponseType } from './types/types';
 import { Button } from './components/ui/button';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import FilterMenu from './widgets/FilterMenu';
 
 function App() {
   const [searchValue, setSearchValue] = useState('');
@@ -12,9 +18,49 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [offset, setOffset] = useState(0);
 
-  const getData = (offset: number, name?: string) => {
+  const [platformChecked, setPlatformChecked] = useState(false);
+  const [selectedPlatform, setSelectedPlatform] = useState('Any');
+  const [rating, setRating] = useState(true);
+  const [multiplayer, setMultiplayer] = useState(false);
+  const [online, setOnline] = useState(false);
+  const [ru, setRu] = useState(false);
+  const [ru_voice, setRu_voice] = useState(false);
+
+  const filterDto = {
+    platform: {
+      platformChecked: platformChecked,
+      selectedPlatform: selectedPlatform,
+      setSelectedPlatform: setSelectedPlatform,
+      setPlatformChecked: setPlatformChecked,
+    },
+    rating: {
+      rating: rating,
+      setRating: setRating,
+    },
+    multiplayer: {
+      multiplayer: multiplayer,
+      online: online,
+      setMultiplayer: setMultiplayer,
+      setOnline: setOnline,
+    },
+    ru: {
+      text: ru,
+      voice: ru_voice,
+      setText: setRu,
+      setVoice: setRu_voice,
+    },
+  };
+
+  const getData = (
+    offset: number,
+    name?: string,
+    platform?: string,
+    rating?: boolean,
+    ruText?: boolean,
+    ru_voice?: boolean
+  ) => {
     const dataPromise = new Promise((resolve) => {
-      resolve(getGames(offset, name));
+      resolve(getGames(offset, name, platform, rating, ruText, ru_voice));
     });
     dataPromise
       .then((data) => {
@@ -26,8 +72,16 @@ function App() {
   };
 
   useEffect(() => {
-    getData(offset, searchSubmittedValue);
-  }, [, searchSubmittedValue, offset]);
+    setLoading(true);
+    getData(
+      offset,
+      searchSubmittedValue,
+      selectedPlatform,
+      rating,
+      ru,
+      ru_voice
+    );
+  }, [, searchSubmittedValue, offset, selectedPlatform, rating, ru, ru_voice]);
 
   const searchChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
@@ -36,7 +90,6 @@ function App() {
   const searchSubmitHandler = () => {
     setSearchSubmittedValue(searchValue);
     setOffset(0);
-    setLoading(true);
   };
 
   const searchSubmitByKeyHandler = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -48,14 +101,12 @@ function App() {
   const nextButtonHandler = () => {
     if (dt[0].result.length === 10) {
       setOffset(offset + 10);
-      setLoading(true);
     }
   };
 
   const prevButtonHandler = () => {
     if (offset) {
       setOffset(offset - 10);
-      setLoading(true);
     }
   };
 
@@ -67,6 +118,16 @@ function App() {
         onKeyDown={searchSubmitByKeyHandler}
         onSubmit={searchSubmitHandler}
       />
+      <div className="m-auto flex justify-end mt-3 w-[700px]">
+        <Popover>
+          <PopoverTrigger>
+            <p className="font-bold">Filter</p>
+          </PopoverTrigger>
+          <PopoverContent className="w-[350px]">
+            <FilterMenu data={filterDto} />
+          </PopoverContent>
+        </Popover>
+      </div>
       {!loading ? (
         dt[0].result.map((elem, index) => (
           <GameCard key={index} data={elem as GameCardData} />
