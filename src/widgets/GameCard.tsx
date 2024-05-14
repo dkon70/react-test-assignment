@@ -111,7 +111,7 @@ const GameCard = (props: GameCardProps) => {
             <p className={!showFullText ? `line-clamp-5` : ''}>
               {data.storyline && data.storyline}
             </p>
-            {data.storyline && data.storyline.length > 100 ? (
+            {data.storyline && data.storyline.length > 450 ? (
               <span
                 className="font-bold text-xs cursor-pointer underline"
                 onClick={textToggleHandler}
