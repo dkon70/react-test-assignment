@@ -16,7 +16,7 @@ const SearchBar = (props: SearchBarType) => {
     <div className="flex w-full max-w-sm items-center space-x-2 m-auto pt-5">
       <Input
         type="text"
-        placeholder="Введите название игры..."
+        placeholder="Search..."
         value={value}
         onChange={onChange}
         onKeyDown={onKeyDown}

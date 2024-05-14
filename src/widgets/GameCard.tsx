@@ -21,6 +21,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
+import LanguageTable from './LanguagesTable';
 
 type GameCardProps = {
   data: {
@@ -28,17 +29,21 @@ type GameCardProps = {
     name: string;
     cover: { url: string };
     genres: { name: string }[];
-    platform: { name: string }[];
+    platforms: { name: string }[];
     release_dates: { date: number }[];
     screenshots: { url: string }[];
     storyline: string;
     rating: number;
-    language_supports: { language: { name: string } }[];
+    language_supports: {
+      language: { name: string };
+      language_support_type: { name: string };
+    }[];
   };
 };
 
 const GameCard = (props: GameCardProps) => {
   const { data } = props;
+
   if (data.cover) {
     data.cover.url = data.cover.url.replace('t_thumb', 't_cover_big');
   }
@@ -47,6 +52,13 @@ const GameCard = (props: GameCardProps) => {
       screenshot.url = screenshot.url.replace('t_thumb', 't_screenshot_big');
     });
   }
+
+  const getReleaseYear = (timestamp: number) => {
+    const date = new Date(timestamp * 1000);
+    const year = date.getFullYear();
+    return year.toString();
+  };
+
   console.log(data);
   return (
     <div className="w-[700px] m-auto pt-5">
@@ -91,14 +103,20 @@ const GameCard = (props: GameCardProps) => {
                     ? item.name + ' - '
                     : item.name
                 )}
+              <br />
+              {data.release_dates && (
+                <span>{getReleaseYear(data.release_dates[0].date)}</span>
+              )}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <p className="font-bold text-xs">
-              {data.platform && data.platform.map((item) => item.name + ' ')}
-            </p>
-            <p className="font-bold text-xs">
-              English, German, Spanish, Japanese, Russian
+              {data.platforms &&
+                data.platforms.map((item, index) =>
+                  index !== data.platforms.length - 1
+                    ? item.name + ' / '
+                    : item.name
+                )}
             </p>
             <br />
             <p>{data.storyline && data.storyline}</p>
@@ -109,7 +127,11 @@ const GameCard = (props: GameCardProps) => {
                 <Button variant="outline">Available languages</Button>
               </PopoverTrigger>
               <PopoverContent className="w-80">
-                {!data.language_supports ? <p>No data</p> : <></>}
+                {!data.language_supports ? (
+                  <p className="text-center">No data</p>
+                ) : (
+                  <LanguageTable data={data.language_supports} />
+                )}
               </PopoverContent>
             </Popover>
           </CardFooter>

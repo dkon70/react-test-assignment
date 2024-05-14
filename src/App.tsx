@@ -8,12 +8,15 @@ type GameCardProps = {
   name: string;
   cover: { url: string };
   genres: { name: string }[];
-  platform: { name: string }[];
+  platforms: { name: string }[];
   release_dates: { date: number }[];
   screenshots: { url: string }[];
   storyline: string;
   rating: number;
-  language_supports: { language: { name: string } }[];
+  language_supports: {
+    language: { name: string };
+    language_support_type: { name: string };
+  }[];
 };
 
 type ResponseType = {
@@ -61,8 +64,8 @@ function App() {
       resolve(getGames());
     });
     promise
-      .then((data: any) => {
-        setData(data);
+      .then((data) => {
+        setData(data as ResponseType[]);
       })
       .then(() => {
         setLoading(false);
@@ -97,7 +100,9 @@ function App() {
       />
       {!loading ? (
         // <GameCard data={dt[0].result[0] as GameCardProps} />
-        dt[0].result.map((elem, index) => <GameCard key={index} data={elem as GameCardProps} />)
+        dt[0].result.map((elem, index) => (
+          <GameCard key={index} data={elem as GameCardProps} />
+        ))
       ) : (
         <h1 className="text-center pt-10 text-xl">Loading...</h1>
       )}
