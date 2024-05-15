@@ -87,8 +87,8 @@ const GameCard = (props: GameCardProps) => {
             {data.screenshots && (
               <Carousel className="m-auto w-[60%] md:w-[320px] rounded-md">
                 <CarouselContent className="md:w-[320px] md:h-[300px] rounded-md">
-                  {data.screenshots.map((item, index) => (
-                    <CarouselItem key={index} className="cursor-pointer">
+                  {data.screenshots.map((item) => (
+                    <CarouselItem key={item.url} className="cursor-pointer">
                       <a
                         href={item.url.replace('t_screenshot_big', 't_1080p')}
                         target="_blank"

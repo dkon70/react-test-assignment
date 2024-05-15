@@ -44,8 +44,8 @@ const LanguageTable = (props: LanguageTableProps) => {
         </tr>
       </thead>
       <tbody>
-        {languagesArr.map((el, index) => (
-          <tr key={index}>
+        {languagesArr.map((el) => (
+          <tr key={el.language}>
             <td>{`${el.language}:`}</td>
             <td className="p-1 text-center">{el.types.audio ? '✓' : ''}</td>
             <td className="p-1 text-center">{el.types.subtitles ? '✓' : ''}</td>
