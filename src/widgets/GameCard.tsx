@@ -77,6 +77,7 @@ const GameCard = (props: GameCardProps) => {
             <img
               className="rounded-tl-md"
               src={(data.cover && data.cover.url) || NoImage}
+              alt="poster"
             />
             {data.rating && (
               <Badge className="absolute top-5 left-5 z-10">
@@ -84,14 +85,21 @@ const GameCard = (props: GameCardProps) => {
               </Badge>
             )}
             {data.screenshots && (
-              <Carousel className="m-auto w-[60%] md:w-[320px]">
-                <CarouselContent className="md:w-[320px] md:h-[300px]">
+              <Carousel className="m-auto w-[60%] md:w-[320px] rounded-md">
+                <CarouselContent className="md:w-[320px] md:h-[300px] rounded-md">
                   {data.screenshots.map((item, index) => (
                     <CarouselItem key={index} className="cursor-pointer">
-                      <img
-                        className="md:w-[320px] md:h-[300px] object-cover"
-                        src={item.url}
-                      />
+                      <a
+                        href={item.url.replace('t_screenshot_big', 't_1080p')}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <img
+                          className="md:w-[320px] md:h-[300px] object-cover rounded-md"
+                          src={item.url}
+                          alt="screenshot"
+                        />
+                      </a>
                     </CarouselItem>
                   ))}
                 </CarouselContent>
