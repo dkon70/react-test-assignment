@@ -29,6 +29,27 @@ const GameCard = (props: GameCardProps) => {
   const { data } = props;
   const [showFullText, setShowFullText] = useState(false);
 
+  const multiplayerMods: string[] = [];
+  let maxOnlinePlayers: string = '';
+  let maxOfflinePlayers: string = '';
+
+  data.game_modes &&
+    data.game_modes.forEach((el) => {
+      if (el.name !== 'Single player') {
+        multiplayerMods.push(el.name);
+      }
+    });
+
+  data.multiplayer_modes &&
+    data.multiplayer_modes.forEach((el) => {
+      if (el.onlinemax) {
+        maxOnlinePlayers = el.onlinemax;
+      }
+      if (el.offlinemax) {
+        maxOfflinePlayers = el.offlinemax;
+      }
+    });
+
   if (data.cover) {
     data.cover.url = data.cover.url.replace('t_thumb', 't_cover_big');
   }
@@ -48,7 +69,6 @@ const GameCard = (props: GameCardProps) => {
     return year.toString();
   };
 
-  console.log(data);
   return (
     <div className="w-[700px] m-auto pt-5">
       <Card className="flex flex-col">
@@ -96,6 +116,18 @@ const GameCard = (props: GameCardProps) => {
               {data.release_dates && (
                 <span>{getReleaseYear(data.release_dates[0].date)}</span>
               )}
+              <br />
+              <span>
+                Multiplayer: {multiplayerMods.length > 0 ? 'Yes' : 'No'}{' '}
+                {maxOfflinePlayers ? ` max-players: ${maxOfflinePlayers}` : ''}
+              </span>
+              <br />
+              <span>
+                Online:{' '}
+                {maxOnlinePlayers
+                  ? `Yes. max-players: ${maxOnlinePlayers}`
+                  : 'No / No data'}
+              </span>
             </CardDescription>
           </CardHeader>
           <CardContent>

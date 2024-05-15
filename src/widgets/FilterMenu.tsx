@@ -7,33 +7,8 @@ import {
   SelectValue,
   SelectGroup,
 } from '@/components/ui/select';
-
-type FilterMenuProps = {
-  data: {
-    platform: {
-      platformChecked: boolean;
-      selectedPlatform: string;
-      setSelectedPlatform: (value: string) => void;
-      setPlatformChecked: (value: boolean) => void;
-    };
-    rating: {
-      rating: boolean;
-      setRating: (value: boolean) => void;
-    };
-    multiplayer: {
-      multiplayer: boolean;
-      online: boolean;
-      setMultiplayer: (value: boolean) => void;
-      setOnline: (value: boolean) => void;
-    };
-    ru: {
-      text: boolean;
-      voice: boolean;
-      setText: (value: boolean) => void;
-      setVoice: (value: boolean) => void;
-    };
-  };
-};
+import { Input } from '@/components/ui/input';
+import { FilterMenuProps } from '@/types/types';
 
 const FilterMenu = (props: FilterMenuProps) => {
   const { data } = props;
@@ -95,6 +70,14 @@ const FilterMenu = (props: FilterMenuProps) => {
         >
           Multiplayer
         </label>
+        <Input
+          className="w-[50px]"
+          value={data.multiplayer.maxOfflinePlayers}
+          onChange={(event) =>
+            data.multiplayer.setMaxOfflinePlayers(Number(event.target.value))
+          }
+        />
+        <span>Players</span>
       </div>
       <div className="flex items-center space-x-2">
         <Checkbox
@@ -111,6 +94,14 @@ const FilterMenu = (props: FilterMenuProps) => {
         >
           Online
         </label>
+        <Input
+          className="w-[50px]"
+          value={data.multiplayer.maxOnlinePlayers}
+          onChange={(event) =>
+            data.multiplayer.setMaxOnlinePlayers(Number(event.target.value))
+          }
+        />
+        <span>players</span>
       </div>
       <div className="flex items-center space-x-2">
         <Checkbox

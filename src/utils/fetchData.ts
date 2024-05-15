@@ -4,7 +4,9 @@ export const getGames = async (
   platform?: string,
   rating?: boolean,
   ruText?: boolean,
-  ruVoice?: boolean
+  ruVoice?: boolean,
+  maxOfflinePlayers?: number,
+  maxOnlinePlayers?: number
 ) => {
   if (!name) name = '';
   if (!platform || platform === 'Any') platform = '';
@@ -16,12 +18,13 @@ export const getGames = async (
       Authorization: `Bearer ${import.meta.env.VITE_BEARER}`,
     },
     body: `query games "Get game by id" {
-      fields name, platforms.name, cover.url, language_supports.language.name, language_supports.language_support_type.name, rating, release_dates.date, screenshots.url, storyline, genres.name;
+      fields name, platforms.name, cover.url, language_supports.language.name, language_supports.language_support_type.name, rating, release_dates.date, screenshots.url, storyline, genres.name, multiplayer_modes.offlinemax, multiplayer_modes.onlinemax, game_modes.name;
       limit 10;
       ${rating ? 'sort rating desc;' : ''}
       offset ${offset};
-      where platforms.name ~ "${platform}"${platform ? '' : '*'} & name ~ "${name}"* ${ruText ? '& language_supports.language.name = "Russian"*' : ''} ${ruVoice ? '& language_supports.language.name = "Russian"* & language_supports.language_support_type.name = "Audio"' : ''};
-    };`,
+      where ${maxOfflinePlayers ? `multiplayer_modes.offlinemax = ${maxOfflinePlayers} &` : ''} ${maxOnlinePlayers ? `multiplayer_modes.onlinemax = ${maxOnlinePlayers} &` : ''} platforms.name ~ "${platform}"${platform ? '' : '*'} & name ~ "${name}"* ${ruText ? '& language_supports.language.name = "Russian"*' : ''} ${ruVoice ? '& language_supports.language.name = "Russian"* & language_supports.language_support_type.name = "Audio"' : ''};
+    };
+    `,
   });
   const res = await data.json();
   return res;

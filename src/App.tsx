@@ -22,6 +22,8 @@ function App() {
   const [selectedPlatform, setSelectedPlatform] = useState('Any');
   const [rating, setRating] = useState(true);
   const [multiplayer, setMultiplayer] = useState(false);
+  const [maxOfflinePlayers, setMaxOfflinePlayers] = useState(0);
+  const [maxOnlinePlayers, setMaxOnlinePlayers] = useState(0);
   const [online, setOnline] = useState(false);
   const [ru, setRu] = useState(false);
   const [ru_voice, setRu_voice] = useState(false);
@@ -40,6 +42,10 @@ function App() {
     multiplayer: {
       multiplayer: multiplayer,
       online: online,
+      maxOnlinePlayers: maxOnlinePlayers,
+      maxOfflinePlayers: maxOfflinePlayers,
+      setMaxOnlinePlayers: setMaxOnlinePlayers,
+      setMaxOfflinePlayers: setMaxOfflinePlayers,
       setMultiplayer: setMultiplayer,
       setOnline: setOnline,
     },
@@ -57,10 +63,23 @@ function App() {
     platform?: string,
     rating?: boolean,
     ruText?: boolean,
-    ru_voice?: boolean
+    ru_voice?: boolean,
+    multiplayer?: number,
+    online?: number
   ) => {
     const dataPromise = new Promise((resolve) => {
-      resolve(getGames(offset, name, platform, rating, ruText, ru_voice));
+      resolve(
+        getGames(
+          offset,
+          name,
+          platform,
+          rating,
+          ruText,
+          ru_voice,
+          multiplayer,
+          online
+        )
+      );
     });
     dataPromise
       .then((data) => {
@@ -79,9 +98,53 @@ function App() {
       selectedPlatform,
       rating,
       ru,
-      ru_voice
+      ru_voice,
+      multiplayer ? maxOfflinePlayers : 0,
+      online ? maxOnlinePlayers : 0
     );
-  }, [, searchSubmittedValue, offset, selectedPlatform, rating, ru, ru_voice]);
+  }, [
+    ,
+    searchSubmittedValue,
+    offset,
+    selectedPlatform,
+    rating,
+    ru,
+    ru_voice,
+    multiplayer,
+    online,
+  ]);
+
+  useEffect(() => {
+    if (multiplayer) {
+      setLoading(true);
+      getData(
+        offset,
+        searchSubmittedValue,
+        selectedPlatform,
+        rating,
+        ru,
+        ru_voice,
+        multiplayer ? maxOfflinePlayers : 0,
+        online ? maxOnlinePlayers : 0
+      );
+    }
+  }, [maxOfflinePlayers]);
+
+  useEffect(() => {
+    if (online) {
+      setLoading(true);
+      getData(
+        offset,
+        searchSubmittedValue,
+        selectedPlatform,
+        rating,
+        ru,
+        ru_voice,
+        multiplayer ? maxOfflinePlayers : 0,
+        online ? maxOnlinePlayers : 0
+      );
+    }
+  }, [maxOnlinePlayers]);
 
   const searchChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);

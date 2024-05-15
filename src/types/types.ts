@@ -10,6 +10,13 @@ export type GameCardData = {
   screenshots: { url: string }[];
   storyline: string;
   rating: number;
+  game_modes: {
+    name: string;
+  }[];
+  multiplayer_modes: {
+    onlinemax: string;
+    offlinemax: string;
+  }[];
   language_supports: {
     language: { name: string };
     language_support_type: { name: string };
@@ -49,4 +56,35 @@ export type SearchBarProps = {
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   onKeyDown: (event: KeyboardEvent<HTMLInputElement>) => void;
   onSubmit: () => void;
+};
+
+export type FilterMenuProps = {
+  data: {
+    platform: {
+      platformChecked: boolean;
+      selectedPlatform: string;
+      setSelectedPlatform: (value: string) => void;
+      setPlatformChecked: (value: boolean) => void;
+    };
+    rating: {
+      rating: boolean;
+      setRating: (value: boolean) => void;
+    };
+    multiplayer: {
+      multiplayer: boolean;
+      online: boolean;
+      maxOnlinePlayers: number;
+      maxOfflinePlayers: number;
+      setMaxOnlinePlayers: (value: number) => void;
+      setMaxOfflinePlayers: (value: number) => void;
+      setMultiplayer: (value: boolean) => void;
+      setOnline: (value: boolean) => void;
+    };
+    ru: {
+      text: boolean;
+      voice: boolean;
+      setText: (value: boolean) => void;
+      setVoice: (value: boolean) => void;
+    };
+  };
 };
