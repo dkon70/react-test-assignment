@@ -70,10 +70,10 @@ const GameCard = (props: GameCardProps) => {
   };
 
   return (
-    <div className="w-[700px] m-auto pt-5">
+    <div className="md:w-[700px] w-[95%] m-auto pt-5">
       <Card className="flex flex-col">
         <div className="relative w-[100%]">
-          <div className="flex">
+          <div className="flex md:flex-row flex-col md:gap-0 gap-5">
             <img
               className="rounded-tl-md"
               src={(data.cover && data.cover.url) || NoImage}
@@ -84,12 +84,12 @@ const GameCard = (props: GameCardProps) => {
               </Badge>
             )}
             {data.screenshots && (
-              <Carousel className="m-auto">
-                <CarouselContent className="w-[320px] h-[300px]">
+              <Carousel className="m-auto w-[60%] md:w-[320px]">
+                <CarouselContent className="md:w-[320px] md:h-[300px]">
                   {data.screenshots.map((item, index) => (
                     <CarouselItem key={index} className="cursor-pointer">
                       <img
-                        className="w-[320px] h-[300px] object-cover"
+                        className="md:w-[320px] md:h-[300px] object-cover"
                         src={item.url}
                       />
                     </CarouselItem>

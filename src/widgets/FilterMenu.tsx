@@ -26,7 +26,7 @@ const FilterMenu = (props: FilterMenuProps) => {
           htmlFor="rating"
           className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
         >
-          By rating
+          Sort by rating
         </label>
       </div>
       <div className="flex items-center space-x-2">

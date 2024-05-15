@@ -181,7 +181,7 @@ function App() {
         onKeyDown={searchSubmitByKeyHandler}
         onSubmit={searchSubmitHandler}
       />
-      <div className="m-auto flex justify-end mt-3 w-[700px]">
+      <div className="m-auto flex justify-end mt-3 md:w-[700px] w-[90%]">
         <Popover>
           <PopoverTrigger>
             <p className="font-bold">Filter</p>
@@ -203,7 +203,7 @@ function App() {
         <h1 className="text-center pt-10 text-xl">Loading...</h1>
       )}
       {!loading && dt[0].result.length > 0 ? (
-        <div className="flex m-auto justify-center gap-96 mb-16 mt-8">
+        <div className="flex m-auto justify-center md:gap-96 gap-16 mb-16 mt-8">
           <Button
             disabled={!offset}
             onClick={prevButtonHandler}
