@@ -192,13 +192,17 @@ function App() {
         </Popover>
       </div>
       {!loading ? (
-        dt[0].result.map((elem, index) => (
-          <GameCard key={index} data={elem as GameCardData} />
-        ))
+        dt[0].result.length < 1 ? (
+          <h1 className="text-center pt-10 text-xl">No data</h1>
+        ) : (
+          dt[0].result.map((elem, index) => (
+            <GameCard key={index} data={elem as GameCardData} />
+          ))
+        )
       ) : (
         <h1 className="text-center pt-10 text-xl">Loading...</h1>
       )}
-      {!loading ? (
+      {!loading && dt[0].result.length > 0 ? (
         <div className="flex m-auto justify-center gap-96 mb-16 mt-8">
           <Button
             disabled={!offset}
