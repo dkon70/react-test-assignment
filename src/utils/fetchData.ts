@@ -22,7 +22,7 @@ export const getGames = async (
       limit 10;
       ${rating ? 'sort rating desc;' : ''}
       offset ${offset};
-      where ${maxOfflinePlayers ? `multiplayer_modes.offlinemax = ${maxOfflinePlayers} &` : ''} ${maxOnlinePlayers ? `multiplayer_modes.onlinemax = ${maxOnlinePlayers} &` : ''} platforms.name ~ "${platform}"${platform ? '' : '*'} & name ~ "${name}"* ${ruText ? '& language_supports.language.name = "Russian"*' : ''} ${ruVoice ? '& language_supports.language.name = "Russian"* & language_supports.language_support_type.name = "Audio"' : ''};
+      where ${maxOfflinePlayers ? `multiplayer_modes.offlinemax = ${maxOfflinePlayers} &` : ''} ${maxOnlinePlayers ? `multiplayer_modes.onlinemax = ${maxOnlinePlayers} &` : ''} platforms.name ~ "${platform}"${platform ? '' : '*'} & name ~ *"${name}"* ${ruText ? '& language_supports.language.name = "Russian"*' : ''} ${ruVoice ? '& language_supports.language.name = "Russian"* & language_supports.language_support_type.name = "Audio"' : ''};
     };
     `,
   });
