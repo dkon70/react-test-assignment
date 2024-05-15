@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+      { "source": "/api/:path(.*)", "destination": "https://api.igdb.com/v4/:path" },
+      { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
